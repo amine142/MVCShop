@@ -1,42 +1,36 @@
 <?php
 
-class Controller 
-{
-	protected $_view;
+class Controller {
 
-	public function __construct()
-        {
-		$this->_view = new view();
-	}
+    protected $_view;
 
-	//fonction de chargement du modèle pour la requête
-	public function loadModel($name)
-        {
+    public function __construct() {
+        $this->_view = new view();
+    }
 
-		$modelpath = strtolower('models/'.$name.'.php');
+    //fonction de chargement du modèle pour la requête
+    public function loadModel($name, $dir) {
 
-		//try to load and instantiate model		
-		if(file_exists($modelpath)){
-			
-			require $modelpath;
+        $modelpath = strtolower("models\\" . $name . '.php');
+        //try to load and instantiate model		
+        try {
+            require $dir.$modelpath;
 
-			//break name into sections based on a / 
-			$parts = explode('/',$name);
+            //break name into sections based on a / 
+            $parts = explode('/', $name);
 
-			//use last part of array
-			$modelName = ucwords(end($parts));
+            //use last part of array
+            $modelName = ucwords(end($parts));
 
-			//instantiate object
-			$model = new $modelName();
+            //instantiate object
+            $model = new $modelName();
+            return $model;
+        }
+        catch (Exception $e) {
+            echo 'Exception reçue : ', $e->getMessage(), "\n";
+        }
 
-		} else {
-			$this->_error("Model does not exist: ".$modelpath);
-			return false;
-		}
-
-		//return object to controller
-		return $model;
-
-	}
+        //return object to controller
+    }
 
 }

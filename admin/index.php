@@ -5,15 +5,22 @@ ob_start();
 date_default_timezone_set('Europe/Paris');
 
 //site address
-define('DIR','');
-define('DOCROOT', dirname(__FILE__));
+define('DIR',$_SERVER['REQUEST_URI']);
+define('DOCROOT', dirname(__FILE__).'/../');
 
+//database details ONLY NEEDED IF USING A DATABASE
+define('DB_TYPE','mysql');
+define('DB_HOST','localhost');
+define('DB_NAME','database name');
+define('DB_USER','username');
+define('DB_PASS','password');
+define('PREFIX','smvc_');
 
 //set prefix for sessions
 define('SESSION_PREFIX','smvc_');
 
-require_once("core/password_compatibility_library.php");
-require_once("config/db.php");
+//optionall create a constant for the name of the site
+define('SITETITLE','Simple MVC Framework');
 
 function autoloadsystem($class) {
 
@@ -22,7 +29,7 @@ function autoloadsystem($class) {
       require $filename;
    }
 
-  $filename = DOCROOT . "/helpers/" . strtolower($class) . ".php";
+   $filename = DOCROOT . "/helpers/" . strtolower($class) . ".php";
    if(file_exists($filename)){
       require $filename;
    } 

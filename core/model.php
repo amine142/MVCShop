@@ -1,5 +1,5 @@
 <?php 
-
+require '../helpers/database.php';
 class Model {
 
 	protected $_db;
